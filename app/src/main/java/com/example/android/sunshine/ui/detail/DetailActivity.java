@@ -50,10 +50,13 @@ public class DetailActivity extends LifecycleActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //ezzel az utasítással iniciaálizálódik a mViewModel változó, ha már létezik, akkor a meglévő példánnyal tér vissza.
         mViewModel = ViewModelProviders.of(this).get(DetailActivityViewModel.class);
+
+        //a getWeather-el visszatöltjük a Viewmodelben térolt adatokat
+        //az observer akkor hívódik meg ha változik a ViewModelben tárolt adat
         mViewModel.getWeather().observe(this, weatherEntry -> {
             // Update the UI
-
             if (weatherEntry != null) bindWeatherToUI(weatherEntry);
         });
 

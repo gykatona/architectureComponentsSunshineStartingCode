@@ -46,4 +46,6 @@ class DetailActivityViewModel extends ViewModel {
     public LiveData<WeatherEntry> getWeather() {
         return mWeather;
     }
+
+
 }

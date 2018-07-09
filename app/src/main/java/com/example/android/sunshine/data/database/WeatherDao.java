@@ -12,7 +12,6 @@ import java.util.List;
 @Dao
 public interface WeatherDao {
 
-
     /**
     * Inserts a list of {@link WeatherEntry} into the weather table. If there is a conflicting id
     * or date the weather entry uses the {@link OnConflictStrategy} of replacing the weather
