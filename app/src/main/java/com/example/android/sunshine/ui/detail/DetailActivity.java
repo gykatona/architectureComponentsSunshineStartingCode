@@ -50,28 +50,20 @@ public class DetailActivity extends LifecycleActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //ezzel az utasítással iniciaálizálódik a mViewModel változó, ha már létezik, akkor a meglévő példánnyal tér vissza.
-        mViewModel = ViewModelProviders.of(this).get(DetailActivityViewModel.class);
-
-        //a getWeather-el visszatöltjük a Viewmodelben térolt adatokat
-        //az observer akkor hívódik meg ha változik a ViewModelben tárolt adat
-        mViewModel.getWeather().observe(this, weatherEntry -> {
-            // Update the UI
-            if (weatherEntry != null) bindWeatherToUI(weatherEntry);
-        });
-
         mDetailBinding = DataBindingUtil.setContentView(this, R.layout.activity_detail);
         long timestamp = getIntent().getLongExtra(WEATHER_ID_EXTRA, -1);
-        Date date = new Date(timestamp);
+        Date date = SunshineDateUtils.getNormalizedUtcDateForToday();
 
-        mViewModel = ViewModelProviders.of(this).get(DetailActivityViewModel.class);
-        // Get the ViewModel from the factory
+        //ezzel az utasítással inicializálódik a mViewModel, ha már létezik, akkor a meglévő példánnyal tér vissza.
+       // mViewModel = ViewModelProviders.of(this).get(DetailActivityViewModel.class);
+
         DetailViewModelFactory factory = InjectorUtils.provideDetailViewModelFactory(this.getApplicationContext(), date);
         mViewModel = ViewModelProviders.of(this, factory).get(DetailActivityViewModel.class);
 
-        // Observers changes in the WeatherEntry with the id mId
+        //a getWeather-el visszatöltjük a Viewmodelben tárolt adatokat
+        //az observer akkor hívódik meg ha változik a ViewModelben tárolt adat
         mViewModel.getWeather().observe(this, weatherEntry -> {
-            // If the weather forecast details change, update the UI
+            // Update the UI
             if (weatherEntry != null) bindWeatherToUI(weatherEntry);
         });
 
